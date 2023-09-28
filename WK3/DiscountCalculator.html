@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<html>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <head>
+        <meta charset="UTF-8">
+        <title>Discount Calculator</title>
+    </head>
+    <body>    
+        <div class="w3-center w3-margin">
+            <h1 class="w3-pink w3-center">Product Discount Calculator</h1>
+        </div>
+            <div class="w3-center w3-margin">
+                <form action="display_discount.php" method="post">
+                    <table class="w3-border w3-padding">
+                        <tr>
+                        <td>
+                            <label class="w3-left">Product Description: </label>
+                        </td>
+                        <td>
+                            <input type="text" name="description"/>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td>
+                            <label class="w3-left">List Price: </label>
+                        </td>
+                        <td>
+                            <input type="number" name="price"/>
+                        </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label class="w3-left">Discount Percent: </label>
+                            </td>
+                            <td>
+                                <input type="number" name="discount"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>&nbsp;</label>
+                                <input type="submit" value="Calculate Discount"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+    </body>
+</html>
