@@ -11,3 +11,5 @@ $query="INSERT INTO car_details (make, model) VALUES ('$make', '$model')";
 $insert_count=$db->exec($query);
 // call car_details file to display results
 require_once 'car_details.php';
+
+// Adding comment
