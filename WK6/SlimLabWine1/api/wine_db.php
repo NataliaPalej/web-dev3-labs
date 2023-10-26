@@ -43,4 +43,15 @@ $query = "SELECT * FROM wine WHERE name LIKE ". '"%'.$name.'%"'." ORDER BY name"
         echo '{"error":{"text":'. $e->getMessage() .'}}';
     }
 }
+
+// Create methods to post, update and delete wine
+function updateWine($name) {
+$query = "SELECT * FROM wine WHERE name LIKE ". '"%'.$name.'%"'." ORDER BY name";
+            try {
+                global $db;
+        
+            } catch (Exception $ex) {
+
+            }
+}
 ?>

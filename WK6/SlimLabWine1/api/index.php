@@ -10,6 +10,11 @@ $app->get('/wines', 'getWines');
 $app->get('/wines/:id',  'getWine');
 $app->get('/wines/search/:query', 'findByName');
 
+// Update, delete, post methods route needs to be added 
+$app->post('/wines', 'addWine');
+$app->update('/wines', 'updateWine');
+$app->delete('/wines', 'deleteWine');
+
 $app->run();
 ?>
 
