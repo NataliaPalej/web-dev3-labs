@@ -1,4 +1,12 @@
 $(document).ready(function(){
+    // Example 1
     $("h1").text("HELLO WORLD!");
+
+    // Example 2
+    $(":button").remove();
+    let price = $("<p>From $399.99</p>");
+    $(".vacation").after(price);
+    
+    
 });
 
