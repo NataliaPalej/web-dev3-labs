@@ -1,14 +1,28 @@
+// Rot URL foe RESTful api
 var rootURL = 'http://localhost/WK9/api/wines';
 var currentWine;
 
 // When DOM is ready
 $(document).ready(function(){
-    // Set listener for onClick event of the list
-    $(document).on("click", "#wineList a", function(){findById(this.id);})
+    // Nothing to delete in initial state 
+    $('btnDelete').hide();
+
+    // Set listeners for onClick events
+    $(document).on("click", "#wineList a", function(){
+        findById(this.id);})
     // Insert New Wine
-    $(document).on("click", "#btnAdd", function(){newWine();})
+    $(document).on("click", "#btnAdd", function(){
+        newWine();
+    })
     // Save Wine
-    $(document).on("click", "#btnSave", function(){addWine();})
+    $(document).on("click", "#btnSave", function(){
+        addWine();
+    })
+    // Delete Wine
+    $(document).on("click", "#btnDelete", function(){
+        deleteWine();
+    })
+
 
     // Reset the form to empty fields
     $('#wineId').val("");
@@ -21,7 +35,6 @@ $(document).ready(function(){
     $('#pic').attr('src', "");
     $('#description').val("");
 
-    //alert("Loaded DOM");
     // Call findAll method
     findAll();
 });
@@ -58,10 +71,11 @@ var newWine=function () {
     console.log("New Wine Function - Empty Fields")
 	$('#btnDelete').hide();
 	currentWine = {};
-    // Display empty form
+    // Display empty form as current wine is currently blank
 	renderDetails(currentWine);
 };
 
+// Adds new wine, uses formToJSON to parse into JSON
 var addWine=function (){
     console.log("addWine function called");
     $.ajax({
@@ -81,6 +95,28 @@ var addWine=function (){
         }
     })
 }
+
+// Delete selected wine (passes ID)
+var deleteWine=function(){
+    console.log("Delete Wine method called.");
+    console.log("Wine to delete: " + rootURL + "/" + $('wineId').val())
+
+    $.ajax({
+        type: 'DELETE',
+        contentType: 'application/json',
+        url: rootURL + '/' + $('#wineId').val(),
+        success: function(data, textStatus, jqXHR) {
+            console.log("Wine " + $('#wineId').val + "successfully deleted.");
+            alert("Wine " + $('#wineId').val + "successfully deleted.");
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            console.log("deleteWine() error: " + textStatus);
+            alert("deleteWine() error: " + textStatus);
+            findAll();
+        }
+    });
+};
+
 
 // Render details for all wines
 console.log("Trying to parse wine to the list");
