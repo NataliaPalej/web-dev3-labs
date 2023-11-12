@@ -3,28 +3,42 @@
 <title>Cellar</title>
 <meta charset="UTF-8">
 <!-- Stylesheets -->
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
 <link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/jquery.dataTables.css" />
 <!-- JavaScript Links -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="script/main.js"></script>
 <script src="script/jquery-3.6.1.min.js"></script>
+<script src="script/main.js"></script>
+<script src="script/jquery.dataTables.js"></script>
 </head>
 
 <body>
-<h1 class="w3-pink w3-center">WineApp JQuery Labs</h1>
+<h1 class="w3-pink w3-center w3-padding">WineApp JQuery Labs</h1>
 
-<div class="header" id="header">
+<!--<div class="header" id="header">
 	<input type="text" id="searchKey"/>
 	<button id="btnSearch">Search</button>
 	<button id="btnAdd">New Wine</button>
-</div>
+</div>-->
 
 <div class="leftArea">
-	<ul id="wineList"></ul>
+	<!--<ul id="wineList"></ul>-->
+	<table id="table_id" class="display">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Grapes</th>
+				<th>Country</th>
+				<th>Year</th>
+			</tr>
+		</thead>
+			<tbody id="table_body">
+
+			</tbody>
 </div>
 
-<form id="wineForm">	
+<!--<form id="wineForm">	
 	<div class="mainArea">
 		<label>Id:</label>
 		<input id="wineId" name="id" type="text" disabled />
@@ -53,7 +67,7 @@
 		<label>Notes:</label>
 		<textarea id="description" name="description"></textarea>
 	</div>
-</form>
+</form>-->
 
 </body>
 </html>

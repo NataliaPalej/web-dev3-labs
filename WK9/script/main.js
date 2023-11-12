@@ -2,42 +2,16 @@
 var rootURL = 'http://localhost/WK9/api/wines';
 var currentWine;
 
-// When DOM is ready
-$(document).ready(function(){
-    // Nothing to delete in initial state 
-    $('btnDelete').hide();
-
-    // Set listeners for onClick events
-    $(document).on("click", "#wineList a", function(){
-        findById(this.id);})
-    // Insert New Wine
-    $(document).on("click", "#btnAdd", function(){
-        newWine();
-    })
-    // Save Wine
-    $(document).on("click", "#btnSave", function(){
-        addWine();
-    })
-    // Delete Wine
-    $(document).on("click", "#btnDelete", function(){
-        deleteWine();
-    })
 
 
-    // Reset the form to empty fields
-    $('#wineId').val("");
-    $('#name').val("");
-    $('#grapes').val("");
-    $('#country').val("");
-    $('#region').val("");
-    $('#year').val("");
-    console.log("Trying to fetch the images")
-    $('#pic').attr('src', "");
-    $('#description').val("");
-
-    // Call findAll method
-    findAll();
-});
+// CRUD METHODS
+var serach=function(searchKey){
+    if(searchKey == ''){
+        finalAll();
+    } else {
+        findByName(searchKey);
+    }
+}
 
 // Call GET method of rest API with the URL
 var findAll=function(){
@@ -49,7 +23,7 @@ var findAll=function(){
     });
 };
 
-// Call GET method for one wine 
+// Call GET method by ID
 var findById=function(id){
     console.log("Find by ID method selected");
     console.log("findById: " + id);
@@ -61,6 +35,22 @@ var findById=function(id){
         success: function(data){
             $('#btnDelete').show();
             console.log("findById successs" + data.name);
+            currentWine = data;
+            renderDetails(currentWine);
+        }
+    });
+};
+
+// Call GET method by NAME
+var findByName=function(searchKey){
+    console.log("findByName() loading for " + searchKey);
+    $.ajax({
+        type: 'GET',
+        url: rootURL + '/' + searchKey,
+        dataType: "json",
+        success: function(data){
+            $('#btnDelete').show();
+            console.log("findById() succeeded: " + data.name);
             currentWine = data;
             renderDetails(currentWine);
         }
@@ -117,17 +107,37 @@ var deleteWine=function(){
     });
 };
 
+// Update wine by its ID
+var updateWine=function(){
+    console.log("updateWine() loaded");
+    $.ajax({
+        type: 'PUT',
+        contentType: "json",
+        url: rootURL + '/' + $('#wineId'.val()),
+        data: formToJSON(),
+        success: function(data, tesxtStatus, jqXHR) {
+            console.log("Wine updated successfully " + $('#wineId'.val()));
+            alert("Wine updated successfully " + $('#wineId'.val()));  
+            findAll();
+        },
+        error: function(jqXHR, tesxtStatus, errorThrown) {
+            console.log("updateWine() error: " + textStatus);
+        }
+    });
+};
 
 // Render details for all wines
-console.log("Trying to parse wine to the list");
 var renderList = function(data){
+    console.log("renderList() loading...");
     var list = data.wine;
- //   alert("Loaded rendeer");
-    $('#wineList li').remove();
-    $.each(list, function(index, wine){
-        $('#wineList').append('<li><a href = "#" id=" ' + wine.id + '">' + wine.name + '</a></li>');
-		console.log("renderList method loaded");
+    //$('#wineList li').remove();
+    //$.each(list, function(index, wine){
+    //    $('#wineList').append('<li><a href = "#" id=" ' + wine.id + '">' + wine.name + '</a></li>');
+	$.each(list, function(index, wine){
+        $('#table_body').append('<tr><td>'+wine.name+'</td><td>'+wine.grapes+'</td><td>'+wine.country+'</td><td>'+wine.year+'</td></tr>');
+        console.log("renderList method loaded in a table format"); 
     });
+    $('#table_id').dataTable();
 };
 
 // Render details for particular wine
@@ -158,3 +168,70 @@ var formToJSON = function() {
         "description" : $('#description').val(),
     });
 };
+
+// When DOM is ready
+$(document).ready(function(){
+    // Nothing to delete in initial state 
+    $('btnDelete').hide();
+
+    // Button Search
+    $('#btnSearch').click(function(){
+        serarch($('#serachKey').val());
+        return false;
+    });
+
+    // Trigger search when pressing 'Return' on search key input field
+	$('#searchKey').keypress(function(e){
+		if(e.which == 13) {
+			search($('#searchKey').val());
+			e.preventDefault();
+			return false;
+	    }
+	});
+
+    // Find By ID
+    $('#wineList a').on("click",function() {
+		findById($(this).data('identity'));
+	});
+    $(document).on("click", '#wineList a', function(){findById(this.id);});
+
+    // Insert New Wine
+    $('#btnAdd').click(function(){
+        newWine();
+        return false;
+    });
+
+    // Save Wine
+    $('#btnSave').click(function(){
+        if ($('#wineId'.val() == '')){
+            addWine();
+        } else {
+            updateWine();        
+        }   
+        return false;
+    });
+
+    // Delete Wine
+    $('#btnDelete').click(function(){
+        deleteWine();
+        return false;
+    });
+
+    // Replace broken images with generic wine bottle
+    //$("img").error(function(){
+    //    $(this).attr("src", "pics/generic.jpg");
+    //});
+
+
+    // Reset the form to empty fields
+    $('#wineId').val("");
+    $('#name').val("");
+    $('#grapes').val("");
+    $('#country').val("");
+    $('#region').val("");
+    $('#year').val("");
+    $('#pic').attr('src', "");
+    $('#description').val("");
+    // Call findAll method
+    findAll();
+});
